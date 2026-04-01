@@ -1,4 +1,5 @@
 import { Folder, FileCode, ChevronRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface TreeNode {
   name: string;
@@ -109,10 +110,11 @@ const tree: TreeNode[] = [
   },
 ];
 
-function TreeItem({ node, depth = 0 }: { node: TreeNode; depth?: number }) {
+function TreeItem({ node, depth = 0, isMobile }: { node: TreeNode; depth?: number; isMobile: boolean }) {
   const isFolder = node.type === 'folder';
+  const indent = isMobile ? depth * 6 : depth * 20;
   return (
-    <div style={{ paddingLeft: `${depth * 20}px` }}>
+    <div style={{ paddingLeft: `${indent}px` }}>
       <div
         className={`flex items-center gap-2 py-1.5 px-2 rounded-lg transition-colors ${
           node.highlight
@@ -134,13 +136,27 @@ function TreeItem({ node, depth = 0 }: { node: TreeNode; depth?: number }) {
         <span className="text-sm font-mono">{node.name}</span>
       </div>
       {node.children?.map((child, i) => (
-        <TreeItem key={`${child.name}-${i}`} node={child} depth={depth + 1} />
+        <TreeItem key={`${child.name}-${i}`} node={child} depth={depth + 1} isMobile={isMobile} />
       ))}
-    </div>
+      </div>
   );
 }
 
 export default function FolderStructureSection() {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    const update = () => setIsMobile(mq.matches);
+    update();
+    if (mq.addEventListener) mq.addEventListener('change', update);
+    else mq.addListener(update);
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener('change', update);
+      else mq.removeListener(update);
+    };
+  }, []);
+
   return (
     <section id="structure" className="py-24 px-4">
       <div className="max-w-6xl mx-auto">
@@ -159,14 +175,14 @@ export default function FolderStructureSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Tree */}
-          <div className="bg-surface-800/30 rounded-2xl border border-surface-700/50 p-6">
+          <div className="bg-surface-800/30 rounded-2xl border border-surface-700/50 p-6 overflow-y-auto max-h-[60vh]">
             <div className="flex items-center gap-2 mb-4 pb-3 border-b border-surface-700/50">
               <Folder size={18} className="text-amber-400" />
               <span className="text-white font-bold">Project Structure</span>
             </div>
             <div className="space-y-0.5">
               {tree.map((node, i) => (
-                <TreeItem key={`${node.name}-${i}`} node={node} />
+                <TreeItem key={`${node.name}-${i}`} node={node} isMobile={isMobile} depth={0} />
               ))}
             </div>
           </div>
