@@ -49,22 +49,32 @@ export default function ArchitectureSection() {
         </div>
 
         {/* Flow Diagram */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-2 mb-16 items-stretch">
+        <div className="flex flex-wrap gap-4 md:gap-2 mb-16 items-stretch">
           {steps.map((step, idx) => {
             const Icon = step.icon;
             return (
-            <div key={step.title} className="flex items-center gap-2">
-              <div className="flex-1 h-full bg-surface-800/50 rounded-2xl border border-surface-700/50 p-6 hover:border-primary-500/30 transition-all group overflow-hidden">
+              <div
+                key={step.title}
+                className="flex items-center gap-4 flex-basis-full justify-around"
+              >
+                <div className="flex-1 max-w-[250px]  h-full bg-surface-800/50 rounded-2xl border border-surface-700/50 p-6 hover:border-primary-500/30 transition-all group overflow-hidden">
                   <div
                     className={`w-12 h-12 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center mb-4 shadow-lg ${step.shadow} group-hover:scale-110 transition-transform`}
                   >
                     <Icon size={22} className="text-white" />
                   </div>
-                  <h3 className="text-white font-bold text-sm mb-2 font-mono">{step.title}</h3>
-                  <p className="text-surface-400 text-sm leading-relaxed">{step.desc}</p>
+                  <h3 className="text-white font-bold text-sm mb-2 font-mono">
+                    {step.title}
+                  </h3>
+                  <p className="text-surface-400 text-sm leading-relaxed">
+                    {step.desc}
+                  </p>
                 </div>
                 {idx < steps.length - 1 && (
-                  <ArrowRight size={20} className="text-surface-600 hidden md:block flex-shrink-0" />
+                  <ArrowRight
+                    size={20}
+                    className="text-surface-600 hidden md:block flex-shrink-0"
+                  />
                 )}
               </div>
             );
@@ -93,10 +103,10 @@ export default function ArchitectureSection() {
               },
             ].map((item) => (
               <div key={item.step} className="relative">
-                <div className="absolute -top-3 -left-2 w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-primary-500/30 z-10">
+                <div className="absolute -top-3 -left-2 w-8 h-8 rounded-lg bg-primary-500 flex items-stretch justify-center text-white font-bold text-sm shadow-lg shadow-primary-500/30 z-10">
                   {item.step}
                 </div>
-                <div className="bg-surface-900/80 rounded-xl border border-surface-700/50 p-5 pt-7">
+                <div className="bg-surface-900/80 rounded-xl border border-surface-700/50 p-5 pt-7 h-full">
                   <h4 className="text-white font-semibold text-sm mb-3">{item.title}</h4>
                   <pre className="text-xs text-surface-300 font-mono leading-relaxed overflow-x-auto">
                     <code>{item.code}</code>
