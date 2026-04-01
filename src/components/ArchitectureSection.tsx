@@ -49,12 +49,12 @@ export default function ArchitectureSection() {
         </div>
 
         {/* Flow Diagram */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-2 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-2 mb-16 items-stretch">
           {steps.map((step, idx) => {
             const Icon = step.icon;
             return (
-              <div key={step.title} className="flex items-center gap-2">
-                <div className="flex-1 bg-surface-800/50 rounded-2xl border border-surface-700/50 p-6 hover:border-primary-500/30 transition-all group">
+            <div key={step.title} className="flex items-center gap-2">
+              <div className="flex-1 h-full bg-surface-800/50 rounded-2xl border border-surface-700/50 p-6 hover:border-primary-500/30 transition-all group overflow-hidden">
                   <div
                     className={`w-12 h-12 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center mb-4 shadow-lg ${step.shadow} group-hover:scale-110 transition-transform`}
                   >
